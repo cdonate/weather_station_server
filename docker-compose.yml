@@ -1,0 +1,46 @@
+version: '3.5'
+networks:
+  docker_network:
+    external: true
+
+secrets:
+  pg-user:
+    file: ./secrets/pg-user
+  pg-password:
+    file: ./secrets/pg-password
+
+services:
+  weather_station_api:
+    build:
+      context: .
+      args:
+        - PORT=${PORT}
+        - LOG_LEVEL=${LOG_LEVEL}
+        - GUNICORN_WORKERS=${GUNICORN_WORKERS}
+    image: weather_station_api
+    restart: always
+    volumes:
+      - ./log:/var/log/
+    depends_on:
+      - db_weather_api
+    networks:
+      - docker_network
+    ports:
+      - 6000:5000
+  db_weather_api:
+    image: postgres
+    volumes:
+      - /opt/locksapidata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER_FILE=/run/secrets/pg-user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/pg-password
+      - PGDATABASE=weather_station
+      - PGPORT=5432
+    networks:
+      - docker_network
+    ports:
+      - 5434:5432
+    secrets:
+      - pg-user
+      - pg-password
+    restart: always
