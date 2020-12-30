@@ -174,27 +174,6 @@ class ResourceBase(Resource):
 
 class WeatherResource(ResourceBase):
 
-    # @login_required
-    # def get(self, user_lock_id=None):
-    #     try:
-    #         if user_lock_id is None:
-    #             web_app.logger.debug('[START] LocksResource - GET - GET LOCKS FOR USER {}'.format(self.me.id))
-    #             user_locks = self.me.get_my_locks()
-    # 
-    #             web_app.logger.info('[SUCCESS] LocksResource - GET - GET LOCKS FOR USER {}'.format(self.me.id))
-    #             return self.response([user_lock.as_dict() for user_lock in user_locks])
-    # 
-    #         web_app.logger.debug('[START] LocksResource - GET - GET LOCK FOR USER {} BY ID {}'.format(self.me.id, user_lock_id))
-    #         user_lock = self.me.get_my_lock_by_id(user_lock_id)
-    #         web_app.logger.info('[SUCCESS] LocksResource - GET - GET LOCK FOR USER {} BY ID {}'.format(self.me.id, user_lock_id))
-    #         return self.response(user_lock.as_dict())
-    # 
-    #     except exceptions.NotFound as ex:
-    #         return self.return_not_found()
-    #     except Exception as ex:
-    #         web_app.logger.debug('[ERROR] WeatherResource - GET - Exception {}'.format(str(ex)))
-    #         return self.return_unexpected_error()
-
     def get(self, iot_id=None):
         try:
             web_app.logger.debug('[START] WeatherResource - GET - GET WEATHER DATA FOR ID {}'.format(iot_id))

@@ -3,7 +3,7 @@ import unicodedata
 import datetime
 from sqlalchemy import and_
 
-from app import constants, database
+from app import database
 from app import config as config_module, exceptions
 
 db = database.AppRepository.db
@@ -67,7 +67,8 @@ class UtilsModel(object):
         else:
             db.session.flush()
 
-    def commit_session(self):
+    @staticmethod
+    def commit_session():
         db.session.commit()
 
     @classmethod
@@ -140,10 +141,14 @@ class WeatherStation(db.Model, UtilsModel):
     datetime = db.Column(db.DateTime, default=datetime.datetime.utcnow, nullable=False)
 
     @classmethod
-    def filter_by_datetime(cls, start_date, end_date, iot_id):
-        return cls.filter(and_(
-                cls.datetime >= datetime.datetime.fromisoformat(start_date),
-                cls.datetime <= datetime.datetime.fromisoformat(end_date),
-                cls.iot_id == iot_id
-            )
-        )
+    def filter_by_datetime(cls, query_data, iot_id):
+        terms = [cls.iot_id == iot_id]
+        for key in query_data:
+            try:
+                if key == 'start_date':
+                    terms.append(cls.datetime >= datetime.datetime.fromisoformat(query_data[key]))
+                elif key == 'end_date':
+                    terms.append(cls.datetime <= datetime.datetime.fromisoformat(query_data[key]))
+            except ValueError:
+                continue
+        return cls.filter(and_(*terms))

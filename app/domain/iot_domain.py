@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from app import constants
-from app import exceptions
 from app.domain import services
 
 

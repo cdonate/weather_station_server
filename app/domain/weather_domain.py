@@ -1,8 +1,4 @@
 # -*- coding: utf-8 -*-
-import random
-import string
-import datetime
-
 from app import models
 
 
@@ -27,10 +23,7 @@ class Weather:
     @classmethod
     def get_data(cls, iot_id, query_data):
         weather_data_list = []
-        weather_data_list_db_instance = cls.repository.filter_by_datetime(
-            query_data['start_date'],
-            query_data['end_date'],
-            iot_id=iot_id)
+        weather_data_list_db_instance = cls.repository.filter_by_datetime(query_data, iot_id)
 
         for weather_data_db_instance in weather_data_list_db_instance:
             weather_data_list.append(cls.create_from_db_instance(weather_data_db_instance))
