@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import datetime
+
 from app import models
 
 
@@ -7,8 +9,11 @@ class Weather:
 
     @classmethod
     def prepare_db_dict_list(cls, iot_id, weather_data):
-        for data in weather_data:
+        for index,data in enumerate(weather_data):
+            unformated_date = datetime.datetime.now() - datetime.timedelta(minutes=((len(weather_data)-int(index))*5.0))
+            formated_date = unformated_date.strftime("%Y-%m-%d %H:%M:%S")
             data['iot_id'] = iot_id
+            data['datetime'] = formated_date
         return weather_data
 
     @classmethod

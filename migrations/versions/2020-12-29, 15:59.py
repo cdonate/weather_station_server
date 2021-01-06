@@ -21,10 +21,10 @@ def upgrade():
     op.create_table('weather_station',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('iot_id', sa.Integer(), nullable=False),
-    sa.Column('temperature', sa.Float(), nullable=False),
-    sa.Column('humidity', sa.Float(), nullable=False),
-    sa.Column('pressure', sa.Float(), nullable=False),
-    sa.Column('rainfall', sa.Integer(), nullable=False),
+    sa.Column('temperature', sa.Float(), nullable=True),
+    sa.Column('humidity', sa.Float(), nullable=True),
+    sa.Column('pressure', sa.Float(), nullable=True),
+    sa.Column('rainfall', sa.Integer(), nullable=True),
     sa.Column('datetime', sa.DateTime(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )

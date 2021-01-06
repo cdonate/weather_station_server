@@ -8,3 +8,7 @@ class UnexpectedError(Exception):
 
 class NotFound(Exception):
     pass
+
+
+class MissingParameter(Exception):
+    pass
